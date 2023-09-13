@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:basicversion/Lists/Secondartlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +33,7 @@ class FileListsState extends State<FileLists>{
   }
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+   print(controller.directorylist.value.toString()+'dff34234');
     return Container(height: MediaQuery.of(context).size.height/1.11,
                       color: CupertinoColors.systemBlue,
                       child: FutureBuilder<List<Model>>(  future:controller.directoryfetcher() ,
@@ -44,7 +45,12 @@ class FileListsState extends State<FileLists>{
                                                                  itemBuilder: (BuildContext context, int index){
                                                                if(snapshot.data![index].directory!= null){
                                                                  return
-                                                                 ListTile(title:Text(snapshot.data![index].directory!));}
+                                                                 ListTile(title:Text(snapshot.data![index].directory!),
+                                                                           onTap: (){print("Before adding (PL)"+controller.directorylist.toString());
+                                                                   controller.directorylist.value.add(Directory(snapshot.data![index].directory!));
+                                                                                   print("After adding(PL)"+controller.directorylist.toString());
+                                                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SecondaryFileList()));
+                                                                           },);}
                                                                else{
                                                                  return ListTile(title: Text(snapshot.data![index].file!),);}}
                                                               );

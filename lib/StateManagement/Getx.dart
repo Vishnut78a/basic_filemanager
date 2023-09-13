@@ -13,8 +13,8 @@ RxList<Model> list = <Model>[].obs;
 RxList<Model> tempfiles = <Model>[].obs;
 RxList<Directory> directorylist= <Directory>[].obs;
 
-forwardlist(Directory tapped){
-  directorylist.value.add(tapped);
+Future<List<Model>> forwardlist(Directory tapped)async{
+
   list.value=[];
   List<FileSystemEntity> l = tapped.listSync();
   for(FileSystemEntity i in l){
@@ -32,11 +32,17 @@ forwardlist(Directory tapped){
 }
 
 Future<List<Model>> directoryfetcher()async{
+  print(999);
+
   list.value=[];
+
+  print(23423);
   var result =  await channel.invokeMethod("externalStorage");
   externaldirectory.value=result as String;
+  directorylist.value=[];
   directorylist.value.add(Directory(result));
 
+  print("directory fectcher11"+directorylist.value.toString());
   List<FileSystemEntity> l = Directory(result).listSync();
   for(FileSystemEntity i in l){
     if(i is Directory){
@@ -49,8 +55,8 @@ Future<List<Model>> directoryfetcher()async{
   list.value.addAll(tempfiles.value);
   tempfiles.value=[];
 
-  print(directorylist[0]);
-  print(externaldirectory);
+  print(directorylist.toString()+"11");
+  print(externaldirectory.toString()+"11");
 
   return list;
 
